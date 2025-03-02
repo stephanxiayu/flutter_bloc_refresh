@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_relearning/cubit/counter_cubit.dart';
+import 'package:flutter_bloc_relearning/bloc/counter_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
@@ -9,7 +9,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counterCubit = BlocProvider.of<CounterCubit>(context);
+    final counterBloc = BlocProvider.of<CounterBloc>(context);
+    // final counterCubit = BlocProvider.of<CounterCubit>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -22,14 +23,12 @@ class MyHomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, int>(
-                bloc: counterCubit,
-                builder: (context, counter) {
-                  return Text(
-                    '$counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                })
+            BlocBuilder<CounterBloc, int>(builder: (context, counter) {
+              return Text(
+                '$counter',
+                style: Theme.of(context).textTheme.headlineMedium,
+              );
+            })
           ],
         ),
       ),
@@ -38,14 +37,14 @@ class MyHomePage extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              counterCubit.increament();
+              counterBloc.add(CounterIncremented());
             },
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
             onPressed: () {
-              counterCubit.decrement();
+              counterBloc.add(CounterDecremented());
             },
             tooltip: 'Increment',
             child: const Icon(Icons.minimize),
