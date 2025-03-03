@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_relearning/bloc/auth_bloc.dart';
 import 'package:flutter_bloc_relearning/widget/gradient_button.dart';
 import 'package:flutter_bloc_relearning/widget/login_field.dart';
 import 'package:flutter_bloc_relearning/widget/social_button.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -56,7 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: passwordController,
               ),
               const SizedBox(height: 20),
-              const GradientButton(),
+              GradientButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(AuthLoginrequested(
+                      email: emailController.text.trim(),
+                      password: passwordController.text.trim()));
+                },
+              ),
             ],
           ),
         ),
